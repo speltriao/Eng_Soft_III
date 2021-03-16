@@ -68,7 +68,7 @@ int main(int argc, char *argv[]){
 
 
     builder = gtk_builder_new();
-    gtk_builder_add_from_file (builder, "/home/speltriao/Documents/Programas/cabeleireiro.glade", NULL);
+    gtk_builder_add_from_file (builder, "glade/cabeleireiro.glade", NULL);
     in_nome = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome"));
     in_telefone = GTK_WIDGET(gtk_builder_get_object(builder, "in_telefone"));
     in_servico = GTK_WIDGET(gtk_builder_get_object(builder, "in_servico"));
