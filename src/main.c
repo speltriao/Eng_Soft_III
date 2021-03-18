@@ -21,7 +21,6 @@ GtkCellRenderer		*cr4;
 GtkCellRenderer		*cr5;
 GtkCellRenderer		*cr6;
 GtkBuilder			*builder; 
-GtkWidget           *add_window;
 GtkEntry	            *in_nome;
 GtkEntry	            *in_telefone;
 GtkEntry	            *in_servico;
@@ -84,19 +83,6 @@ int main(int argc, char *argv[]) {
 	return EXIT_SUCCESS;
 	}
 
-void on_selection_changed1(GtkTreeIter iter){
-	//GtkTreeModel *model;
-
-    g_print ("Row has been clicked. Removing row.\n");
-
-	//
-
-    //if (!gtk_tree_model_get_iter(model, &iter, path))
-      //return; // path describes a non-existing row - should not happen //
-
-    
-}
-
 
 void on_selection_changed(GtkWidget *c) { 
 	gchar *value;
@@ -134,12 +120,17 @@ void on_adicionar_window_delete(){
 }
 
 void on_btn_cancelar_clicked(){
-    gtk_widget_hide(add_window);
+    gtk_widget_hide(adicionar_window);
 }
 void clear_in(){
-
+	gtk_widget_hide (adicionar_window);
+    gtk_entry_set_text(in_nome,"");
+    gtk_entry_set_text(in_telefone,"");
+    gtk_entry_set_text(in_servico,"");
+    gtk_entry_set_text(in_profissional,"");
+    gtk_entry_set_text(in_data,"");
+	gtk_entry_set_text(in_hora,"");
 }
-
 void on_btn_ok_clicked(){
 	char snome[64],stelefone[64],sservico[64],sprofissional[64],sdata[64],shora[64];
 	sprintf(snome, "%s", gtk_entry_get_text(in_nome));
@@ -156,5 +147,6 @@ void on_btn_ok_clicked(){
 	gtk_tree_store_set(treeStore, &iter, 3, sprofissional, -1);//Profissional
 	gtk_tree_store_set(treeStore, &iter, 4, sdata, -1);//Data
 	gtk_tree_store_set(treeStore, &iter, 5, shora, -1);//Hora
-
+	clear_in();
+	
 }
