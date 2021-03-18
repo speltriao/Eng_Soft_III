@@ -1,133 +1,160 @@
 #include <gtk/gtk.h>
 
 
-enum {
-    nome,
-    telefone,
-    servico,
-    profissional, /* Not used by the view, maybe used elsewhere */
-    datahora,
-    N_COLUMNS
-};
+GtkWidget			*window;
+GtkWidget			*adicionar_window;
+GtkWidget			*fixed1;
+GtkWidget			*view1;
+GtkTreeStore		*treeStore;
+GtkTreeView			*tv1;
+GtkTreeViewColumn	*cx1;
+GtkTreeViewColumn	*cx2;
+GtkTreeViewColumn	*cx3;
+GtkTreeViewColumn	*cx4;
+GtkTreeViewColumn	*cx5;
+GtkTreeViewColumn	*cx6;
+GtkTreeSelection	*selection;
+GtkCellRenderer		*cr1;
+GtkCellRenderer		*cr2;
+GtkCellRenderer		*cr3;
+GtkCellRenderer		*cr4;
+GtkCellRenderer		*cr5;
+GtkCellRenderer		*cr6;
+GtkBuilder			*builder; 
+GtkWidget           *add_window;
+GtkEntry	            *in_nome;
+GtkEntry	            *in_telefone;
+GtkEntry	            *in_servico;
+GtkEntry	            *in_data;
+GtkEntry	            *in_hora;
+GtkEntry	            *in_profissional;
+GtkTreeIter 			iter2;
+void		on_destroy(); 
 
-    GtkBuilder      *builder; 
-    GtkWidget       *view;
-    GtkWidget       *window;
-    GtkWidget       *add_window;
-    GtkListStore     *model;
-    GtkTreeViewColumn   *column;
-    GtkEntry	*in_nome;
-    GtkEntry	*in_telefone;
-    GtkEntry	*in_servico;
-    GtkEntry	*in_datahora;
-    GtkEntry	*in_profissional;
+int main(int argc, char *argv[]) {
 
+	gtk_init(&argc, &argv); // init Gtk
 
-int main(int argc, char *argv[]){
-    gtk_init(&argc, &argv);
-    model = gtk_list_store_new(N_COLUMNS,
-                               G_TYPE_STRING,   /* nome */
-                               G_TYPE_STRING,     /* telefone */
-                               G_TYPE_STRING,     /* servico */
-                               G_TYPE_STRING,   /* profissional */
-                               G_TYPE_STRING    /*datahora*/
-                              );
+	builder = gtk_builder_new_from_file ("/home/speltriao/Documents/Programas/cabeleireiro2.glade");
+ 
+	window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
-    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model));
-    g_object_unref(model);
-
-    column = gtk_tree_view_column_new_with_attributes("Nome",
-                                                      gtk_cell_renderer_text_new(),
-                                                      "text", nome,
-                                                      NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-
-    column = gtk_tree_view_column_new_with_attributes("Telefone",
-                                                      gtk_cell_renderer_spin_new(),
-                                                      "text", telefone,
-                                                      NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-
-    column = gtk_tree_view_column_new_with_attributes("Serviço",
-                                                      gtk_cell_renderer_text_new(),
-                                                      "text", servico,
-                                                      NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-    
-        column = gtk_tree_view_column_new_with_attributes("Profissional",
-                                                      gtk_cell_renderer_text_new(),
-                                                      "text", profissional,
-                                                      NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-
-        column = gtk_tree_view_column_new_with_attributes("Data e hora",
-                                                      gtk_cell_renderer_text_new(),
-                                                      "text", datahora,
-                                                      NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-
-
-    builder = gtk_builder_new();
-    gtk_builder_add_from_file (builder, "glade/cabeleireiro.glade", NULL);
-    in_nome = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome"));
-    in_telefone = GTK_WIDGET(gtk_builder_get_object(builder, "in_telefone"));
-    in_servico = GTK_WIDGET(gtk_builder_get_object(builder, "in_servico"));
-    in_datahora = GTK_WIDGET(gtk_builder_get_object(builder, "in_datahora"));
-    in_profissional= GTK_WIDGET(gtk_builder_get_object(builder, "in_profissional"));
-
-    window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
-    add_window = GTK_WIDGET(gtk_builder_get_object(builder, "add_window"));
+	g_signal_connect(window, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_builder_connect_signals(builder, NULL);
-    gtk_container_add(GTK_CONTAINER(window), view);
-    gtk_widget_show_all(window);
-    g_object_unref(builder);
-    gtk_main();
-    return 0;
+
+	fixed1		= GTK_WIDGET(gtk_builder_get_object(builder, "fixed1"));
+	view1		= GTK_WIDGET(gtk_builder_get_object(builder, "view1"));
+	treeStore	= GTK_TREE_STORE(gtk_builder_get_object(builder, "treeStore"));
+	tv1		= GTK_TREE_VIEW(gtk_builder_get_object(builder, "tv1"));
+	cx1		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx1")); // col 1
+	cx2		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx2")); // col 2
+	cx3		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx3")); // col 2
+	cx4		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx4")); // col 2
+	cx5		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx5")); // col 2
+	cx6		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx6")); // col 2
+	cr1		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr1")); // col 1 renderer
+	cr2		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr2")); // col 2 renderer
+	cr3		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr3")); // col 2 renderer
+	cr4		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr4")); // col 2 renderer
+	cr5		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr5")); // col 2 renderer
+	cr6		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr6")); // col 2 renderer
+	selection	= GTK_TREE_SELECTION(gtk_builder_get_object(builder, "selection")); // tree view selection
+	adicionar_window = GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window"));
+	in_nome = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome"));
+    in_telefone = GTK_WIDGET(gtk_builder_get_object(builder, "in_telefone"));
+    in_servico = GTK_WIDGET(gtk_builder_get_object(builder, "in_servico"));
+    in_data = GTK_WIDGET(gtk_builder_get_object(builder, "in_data"));
+	in_hora= GTK_WIDGET(gtk_builder_get_object(builder, "in_hora"));
+    in_profissional= GTK_WIDGET(gtk_builder_get_object(builder, "in_profissional"));
+
+	gtk_tree_view_column_add_attribute(cx1, cr1, "text", 0); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx2, cr2, "text", 1); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx3, cr3, "text", 2);
+	gtk_tree_view_column_add_attribute(cx4, cr4, "text", 3);
+	gtk_tree_view_column_add_attribute(cx5, cr5, "text", 4);
+	gtk_tree_view_column_add_attribute(cx6, cr6, "text", 5);
+
+
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tv1));
+
+	gtk_widget_show_all(window);
+	gtk_main();
+	return EXIT_SUCCESS;
+	}
+
+void on_selection_changed1(GtkTreeIter iter){
+	//GtkTreeModel *model;
+
+    g_print ("Row has been clicked. Removing row.\n");
+
+	//
+
+    //if (!gtk_tree_model_get_iter(model, &iter, path))
+      //return; // path describes a non-existing row - should not happen //
+
+    
 }
+
+
+void on_selection_changed(GtkWidget *c) { 
+	gchar *value;
+	
+	GtkTreeModel *model;
+
+	if (gtk_tree_selection_get_selected
+		(GTK_TREE_SELECTION(c), &model, &iter2) == FALSE)
+			return;
+
+	gtk_tree_model_get(model, &iter2, 0, &value,  -1);
+	printf("col 0 = %s; ", value);
+	//
+	gtk_tree_model_get(model, &iter2, 1, &value,  -1);
+	printf("col 1  = %s\n", value);
+}
+
+
+void on_destroy() {
+		gtk_main_quit();
+		}
 
 void on_btn_new_clicked(){
-    gtk_widget_show(add_window);
+    gtk_widget_show(adicionar_window);
 }
-
-
+void on_btn_remover_clicked(){
+	gtk_tree_store_remove(GTK_TREE_STORE(treeStore), &iter2);
+}
 void on_main_window_destroy(){
     gtk_main_quit();
 }
 
-void on_add_window_delete(){
-    gtk_widget_hide_on_delete(add_window);
+void on_adicionar_window_delete(){
+    gtk_widget_hide_on_delete(adicionar_window);
 }
-
-
 
 void on_btn_cancelar_clicked(){
     gtk_widget_hide(add_window);
 }
 void clear_in(){
-    gtk_entry_reset_im_context(in_nome);
-    gtk_widget_hide(add_window);
-    gtk_entry_set_text(in_nome,"");
-    gtk_entry_set_text(in_telefone,"");
-    gtk_entry_set_text(in_servico,"");
-    gtk_entry_set_text(in_profissional,"");
-    gtk_entry_set_text(in_datahora,"");
+
 }
 
 void on_btn_ok_clicked(){
-    char snome[64],stelefone[64],sservico[64],sprofissional[64],sdatahora[64];
+	char snome[64],stelefone[64],sservico[64],sprofissional[64],sdata[64],shora[64];
 	sprintf(snome, "%s", gtk_entry_get_text(in_nome));
     sprintf(stelefone, gtk_entry_get_text(in_telefone));
     sprintf(sservico, "%s", gtk_entry_get_text(in_servico));
     sprintf(sprofissional, "%s", gtk_entry_get_text(in_profissional));
-    sprintf(sdatahora, "%s", gtk_entry_get_text(in_datahora));
+    sprintf(sdata, "%s", gtk_entry_get_text(in_data));
+	sprintf(shora, "%s", gtk_entry_get_text(in_hora));
+	GtkTreeIter iter;	
+	gtk_tree_store_append (treeStore, &iter, NULL);
+	gtk_tree_store_set(treeStore, &iter, 0, snome, -1); //Nome
+	gtk_tree_store_set(treeStore, &iter, 1, stelefone, -1); //Telefone
+	gtk_tree_store_set(treeStore, &iter, 2, sservico, -1); //Serviço
+	gtk_tree_store_set(treeStore, &iter, 3, sprofissional, -1);//Profissional
+	gtk_tree_store_set(treeStore, &iter, 4, sdata, -1);//Data
+	gtk_tree_store_set(treeStore, &iter, 5, shora, -1);//Hora
 
-    gtk_list_store_insert_with_values(model, NULL, -1,
-                                      nome, snome,
-                                      telefone, stelefone,
-                                      servico, sservico,
-                                      profissional, sprofissional,
-                                      datahora, sdatahora,
-                                      -1);
-    clear_in();
 }
