@@ -1,26 +1,25 @@
 #include <gtk/gtk.h>
 
-
-GtkWidget			*window;
-GtkWidget			*adicionar_window;
-GtkWidget			*fixed1;
-GtkWidget			*view1;
-GtkTreeStore		*treeStore;
-GtkTreeView			*tv1;
-GtkTreeViewColumn	*cx1;
-GtkTreeViewColumn	*cx2;
-GtkTreeViewColumn	*cx3;
-GtkTreeViewColumn	*cx4;
-GtkTreeViewColumn	*cx5;
-GtkTreeViewColumn	*cx6;
-GtkTreeSelection	*selection;
-GtkCellRenderer		*cr1;
-GtkCellRenderer		*cr2;
-GtkCellRenderer		*cr3;
-GtkCellRenderer		*cr4;
-GtkCellRenderer		*cr5;
-GtkCellRenderer		*cr6;
-GtkBuilder			*builder; 
+GtkWidget				*window;
+GtkWidget				*adicionar_window;
+GtkWidget				*fixed1;
+GtkWidget				*view1;
+GtkTreeStore			*treeStore;
+GtkTreeView				*tv1;
+GtkTreeViewColumn		*cx1;
+GtkTreeViewColumn		*cx2;
+GtkTreeViewColumn		*cx3;
+GtkTreeViewColumn		*cx4;
+GtkTreeViewColumn		*cx5;
+GtkTreeViewColumn		*cx6;
+GtkTreeSelection		*selection;
+GtkCellRenderer			*cr1;
+GtkCellRenderer			*cr2;
+GtkCellRenderer			*cr3;
+GtkCellRenderer			*cr4;
+GtkCellRenderer			*cr5;
+GtkCellRenderer			*cr6;
+GtkBuilder				*builder; 
 GtkEntry	            *in_nome;
 GtkEntry	            *in_telefone;
 GtkEntry	            *in_servico;
@@ -32,7 +31,7 @@ void		on_destroy();
 
 int main(int argc, char *argv[]) {
 
-	gtk_init(&argc, &argv); // init Gtk
+	gtk_init(&argc, &argv);
 
 	builder = gtk_builder_new_from_file ("/home/speltriao/Documents/Programas/Code_C/C glade/Eng_Soft_III-main/glade/cabeleireiro.glade");
  
@@ -48,16 +47,16 @@ int main(int argc, char *argv[]) {
 	tv1		= GTK_TREE_VIEW(gtk_builder_get_object(builder, "tv1"));
 	cx1		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx1")); // col 1
 	cx2		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx2")); // col 2
-	cx3		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx3")); // col 2
-	cx4		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx4")); // col 2
-	cx5		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx5")); // col 2
-	cx6		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx6")); // col 2
+	cx3		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx3")); // col 3
+	cx4		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx4")); // col 4
+	cx5		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx5")); // col 5
+	cx6		= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx6")); // col 6
 	cr1		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr1")); // col 1 renderer
 	cr2		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr2")); // col 2 renderer
-	cr3		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr3")); // col 2 renderer
-	cr4		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr4")); // col 2 renderer
-	cr5		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr5")); // col 2 renderer
-	cr6		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr6")); // col 2 renderer
+	cr3		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr3")); // col 3 renderer
+	cr4		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr4")); // col 4 renderer
+	cr5		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr5")); // col 5 renderer
+	cr6		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr6")); // col 6 renderer
 	selection	= GTK_TREE_SELECTION(gtk_builder_get_object(builder, "selection")); // tree view selection
 	adicionar_window = GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window"));
 	in_nome = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome"));
@@ -94,10 +93,9 @@ void on_selection_changed(GtkWidget *c) {
 			return;
 
 	gtk_tree_model_get(model, &iter2, 0, &value,  -1);
-	printf("col 0 = %s; ", value);
-	//
+	//printf("col 0 = %s; ", value);
 	gtk_tree_model_get(model, &iter2, 1, &value,  -1);
-	printf("col 1  = %s\n", value);
+	//printf("col 1  = %s\n", value);
 }
 
 
@@ -108,8 +106,16 @@ void on_destroy() {
 void on_btn_new_clicked(){
     gtk_widget_show(adicionar_window);
 }
-void on_btn_remover_clicked(){
-	gtk_tree_store_remove(GTK_TREE_STORE(treeStore), &iter2);
+void on_btn_remover_clicked (){
+	GtkTreeModel *model;
+	GtkTreeSelection *select;
+
+	select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv1));
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter2)) {
+		gtk_tree_store_remove (treeStore,&iter2);
+	}
+
 }
 void on_main_window_destroy(){
     gtk_main_quit();
