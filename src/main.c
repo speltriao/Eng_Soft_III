@@ -119,9 +119,7 @@ void on_adicionar_window_delete(){
     gtk_widget_hide_on_delete(adicionar_window);
 }
 
-void on_btn_cancelar_clicked(){
-    gtk_widget_hide(adicionar_window);
-}
+
 void clear_in(){
 	gtk_widget_hide (adicionar_window);
     gtk_entry_set_text(in_nome,"");
@@ -149,4 +147,8 @@ void on_btn_ok_clicked(){
 	gtk_tree_store_set(treeStore, &iter, 5, shora, -1);//Hora
 	clear_in();
 	
+}
+
+void on_btn_cancelar_clicked(){
+    clear_in();
 }
