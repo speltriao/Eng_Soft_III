@@ -2,6 +2,7 @@
 
 GtkWidget				*window;
 GtkWidget				*adicionar_window;
+GtkWidget				*pesquisar_window;
 GtkWidget				*fixed1;
 GtkWidget				*view1;
 GtkTreeStore			*treeStore;
@@ -59,6 +60,7 @@ int main(int argc, char *argv[]) {
 	cr6		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr6")); // col 6 renderer
 	selection	= GTK_TREE_SELECTION(gtk_builder_get_object(builder, "selection")); // tree view selection
 	adicionar_window = GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window"));
+	pesquisar_window = GTK_WIDGET(gtk_builder_get_object(builder, "pesquisar_window"));
 	in_nome = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome"));
     in_telefone = GTK_WIDGET(gtk_builder_get_object(builder, "in_telefone"));
     in_servico = GTK_WIDGET(gtk_builder_get_object(builder, "in_servico"));
@@ -157,4 +159,24 @@ void on_btn_ok_clicked(){
 
 void on_btn_cancelar_clicked(){
     clear_in();
+}
+
+void on_btn_clientes_pressed(){
+	//g_print("cliente");
+}
+
+void on_btn_agenda_pressed(){
+	//g_print("agenda");
+}
+
+void on_btn_funcionarios_pressed(){
+	//g_print("funcionarios");
+}
+
+void on_btn_pesquisar_clicked(){
+	gtk_widget_show(pesquisar_window);
+}
+
+void on_btn_cancelar2_clicked(){
+	gtk_widget_hide(pesquisar_window);
 }
