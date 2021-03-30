@@ -358,7 +358,7 @@
                 <property name="height-request">20</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">CPF</property>
+                <property name="label" translatable="yes">CPF/CNPJ</property>
               </object>
               <packing>
                 <property name="x">20</property>
@@ -560,6 +560,251 @@
       </object>
     </child>
   </object>
+  <object class="GtkDialog" id="adicionar_window3">
+    <property name="can-focus">False</property>
+    <property name="can-default">True</property>
+    <property name="title" translatable="yes">Adicionar</property>
+    <property name="window-position">center</property>
+    <property name="default-width">100</property>
+    <property name="default-height">200</property>
+    <property name="type-hint">dialog</property>
+    <property name="urgency-hint">True</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="btn_cancelar1">
+                <property name="label" translatable="yes">Cancelar</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_btn_cancelar1_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_ok1">
+                <property name="label" translatable="yes">Ok</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_btn_ok1_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFixed">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkEntry" id="in_nome3">
+                <property name="width-request">168</property>
+                <property name="height-request">28</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+              </object>
+              <packing>
+                <property name="x">88</property>
+                <property name="y">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="width-request">77</property>
+                <property name="height-request">21</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Nome Cliente</property>
+              </object>
+              <packing>
+                <property name="x">7</property>
+                <property name="y">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFixed">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="width-request">59</property>
+                <property name="height-request">20</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Data/Hora</property>
+              </object>
+              <packing>
+                <property name="x">18</property>
+                <property name="y">9</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="in_datahora3">
+                <property name="width-request">168</property>
+                <property name="height-request">28</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+              </object>
+              <packing>
+                <property name="x">89</property>
+                <property name="y">5</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFixed">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkEntry" id="in_profissional3">
+                <property name="width-request">168</property>
+                <property name="height-request">28</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+              </object>
+              <packing>
+                <property name="x">89</property>
+                <property name="y">8</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="width-request">68</property>
+                <property name="height-request">20</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Profissional</property>
+              </object>
+              <packing>
+                <property name="x">9</property>
+                <property name="y">9</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFixed">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="width-request">74</property>
+                <property name="height-request">23</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Serviço</property>
+              </object>
+              <packing>
+                <property name="x">12</property>
+                <property name="y">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="in_servico3">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+              </object>
+              <packing>
+                <property name="x">88</property>
+                <property name="y">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFixed">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="width-request">51</property>
+                <property name="height-request">20</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Preço</property>
+              </object>
+              <packing>
+                <property name="x">27</property>
+                <property name="y">8</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="in_preco3">
+                <property name="width-request">168</property>
+                <property name="height-request">28</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+              </object>
+              <packing>
+                <property name="x">88</property>
+                <property name="y">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkImage" id="btn_adicionar">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -682,10 +927,10 @@
     <property name="type-hint">dialog</property>
     <property name="program-name">BARBEARIA LUZ DO MUNDO</property>
     <property name="comments" translatable="yes">
-Controle de Clientes, Funcionário e Serviços&#13;
+Cadastro e Controle de Clientes, Funcionário e Serviços.&#13;
 </property>
     <property name="website">https://github.com/speltriao/Eng_Soft_III/</property>
-    <property name="website-label" translatable="yes">Site do Programa</property>
+    <property name="website-label" translatable="yes">Manual do Usuário</property>
     <property name="authors">Alexandre Casella Speltri&#13;
 André Teofilo Leme &#13;
 José Eduardo do Nascimento Junior &#13;
@@ -758,6 +1003,22 @@ Nicolas Feltrin Mendes &#13;
       <!-- column-name cr11 -->
       <column type="gchararray"/>
       <!-- column-name cr12 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkTreeStore" id="treeStore3">
+    <columns>
+      <!-- column-name cr7 -->
+      <column type="gchararray"/>
+      <!-- column-name cr13 -->
+      <column type="gchararray"/>
+      <!-- column-name cr14 -->
+      <column type="gchararray"/>
+      <!-- column-name cr15 -->
+      <column type="gchararray"/>
+      <!-- column-name cr16 -->
+      <column type="gchararray"/>
+      <!-- column-name cr17 -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -883,7 +1144,7 @@ Nicolas Feltrin Mendes &#13;
                 <property name="can-focus">True</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="model">treeStore2</property>
+                <property name="model">treeStore3</property>
                 <property name="search-column">0</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="selection2"/>
@@ -897,6 +1158,46 @@ Nicolas Feltrin Mendes &#13;
                     <property name="sort-indicator">True</property>
                     <child>
                       <object class="GtkCellRendererText" id="cr7"/>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="cx13">
+                    <property name="title" translatable="yes">Nome Cliente</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cr13"/>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="cx14">
+                    <property name="title" translatable="yes">Profissional</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cr14"/>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="cx15">
+                    <property name="title" translatable="yes">Data/Hora</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cr15"/>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="cx16">
+                    <property name="title" translatable="yes">Preço</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cr16"/>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="cx17">
+                    <property name="title" translatable="yes">Serviço</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cr17"/>
                     </child>
                   </object>
                 </child>
@@ -942,7 +1243,7 @@ Nicolas Feltrin Mendes &#13;
             <child>
               <object class="GtkTreeViewColumn" id="cx8">
                 <property name="min-width">150</property>
-                <property name="title" translatable="yes">CPF</property>
+                <property name="title" translatable="yes">CNPJ/CPF</property>
                 <property name="alignment">0.5</property>
                 <child>
                   <object class="GtkCellRendererText" id="cr8">
@@ -1031,7 +1332,7 @@ Nicolas Feltrin Mendes &#13;
                 <property name="can-focus">False</property>
                 <property name="hexpand">False</property>
                 <property name="justify">fill</property>
-                <property name="width-chars">5</property>
+                <property name="width-chars">30</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -1116,7 +1417,7 @@ Nicolas Feltrin Mendes &#13;
                         <property name="can-focus">False</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
-                        <property name="width-chars">2</property>
+                        <property name="width-chars">13</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1238,11 +1539,5 @@ Nicolas Feltrin Mendes &#13;
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkTreeStore" id="treeStore3">
-    <columns>
-      <!-- column-name cr7 -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>
