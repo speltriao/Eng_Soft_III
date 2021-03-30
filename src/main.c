@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -9,6 +10,7 @@ GtkWidget				*window;
 GtkWidget				*teste_window;
 GtkWidget				*adicionar_window;
 GtkWidget				*adicionar_window2;
+GtkWidget				*adicionar_window3;
 GtkWidget				*pesquisar_window;
 GtkWidget				*sobre_window;
 GtkWidget				*fixed1;
@@ -38,6 +40,11 @@ GtkTreeViewColumn		*cx9;
 GtkTreeViewColumn		*cx10;
 GtkTreeViewColumn		*cx11;
 GtkTreeViewColumn		*cx12;
+GtkTreeViewColumn		*cx13;
+GtkTreeViewColumn		*cx14;
+GtkTreeViewColumn		*cx15;
+GtkTreeViewColumn		*cx16;
+GtkTreeViewColumn		*cx17;
 GtkTreeSelection		*selection;
 GtkTreeSelection		*selection2;
 GtkTreeSelection		*selection3;
@@ -53,6 +60,11 @@ GtkCellRenderer			*cr9;
 GtkCellRenderer			*cr10;
 GtkCellRenderer			*cr11;
 GtkCellRenderer			*cr12;
+GtkCellRenderer			*cr13;
+GtkCellRenderer			*cr14;
+GtkCellRenderer			*cr15;
+GtkCellRenderer			*cr16;
+GtkCellRenderer			*cr17;
 GtkBuilder				*builder; 
 GtkEntry	            *in_nome;
 GtkEntry	            *in_telefone;
@@ -64,16 +76,23 @@ GtkEntry	            *in_telefone2;
 GtkEntry	            *in_cpf2;
 GtkEntry	            *in_endereco2;
 GtkEntry	            *in_servicos;
+GtkEntry	            *in_nome3;
+GtkEntry	            *in_datahora3;
+GtkEntry	            *in_profissional3;
+GtkEntry	            *in_servico3;
+GtkEntry	            *in_preco3;
+
 GtkEntry	            *out_datahora;
 GtkTreeIter 			iter2;
 
 
-void on_destroy(); 
+void on_destroy();
+char data2[20]; 
 int main(int argc, char *argv[]) {
 
 	gtk_init(&argc, &argv);
-	builder = gtk_builder_new_from_file ("/home/speltriao/Documents/Programas/Code_C/C glade/Eng_Soft_III-main/glade/cabeleireiro.glade");
- 
+	//builder = gtk_builder_new_from_file ("/home/speltriao/Documents/Programas/Code_C/C glade/Eng_Soft_III-main/glade/cabeleireiro.glade");
+	builder = gtk_builder_new_from_file ("../glade/cabeleireiro.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
 	g_signal_connect(window, "destroy", G_CALLBACK(on_destroy), NULL);
@@ -100,6 +119,11 @@ int main(int argc, char *argv[]) {
 	cx10	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx10")); // col 6
 	cx11	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx11")); // col 6
 	cx12	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx12"));
+	cx13	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx13"));
+	cx14	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx14"));
+	cx15	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx15"));
+	cx16	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx16"));
+	cx17	= GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "cx17"));
 
 	cr1		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr1")); // col 1 renderer
 	cr2		= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr2")); 
@@ -113,9 +137,16 @@ int main(int argc, char *argv[]) {
 	cr10	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr10")); 
 	cr11	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr11")); 
 	cr12	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr12")); 
+	cr13	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr13")); 
+	cr14	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr14")); 
+	cr15	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr15")); 
+	cr16	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr16")); 
+	cr17	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr17")); 
 
 	adicionar_window= GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window"));
 	adicionar_window2= GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window2"));
+	adicionar_window3= GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window3"));
+	sobre_window= GTK_WIDGET(gtk_builder_get_object(builder, "sobre_window"));
 	pesquisar_window= GTK_WIDGET(gtk_builder_get_object(builder, "pesquisar_window"));
 	in_nome = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome"));
     in_telefone = GTK_WIDGET(gtk_builder_get_object(builder, "in_telefone"));
@@ -126,6 +157,12 @@ int main(int argc, char *argv[]) {
     in_cpf2 = GTK_WIDGET(gtk_builder_get_object(builder, "in_cpf2"));
     in_endereco2 = GTK_WIDGET(gtk_builder_get_object(builder, "in_endereco2"));
 	in_servicos= GTK_WIDGET(gtk_builder_get_object(builder, "in_servicos"));
+	in_nome3 = GTK_WIDGET(gtk_builder_get_object(builder, "in_nome3"));
+	in_datahora3= GTK_WIDGET(gtk_builder_get_object(builder, "in_datahora3"));
+	in_profissional3= GTK_WIDGET(gtk_builder_get_object(builder, "in_profissional3"));
+	in_servico3= GTK_WIDGET(gtk_builder_get_object(builder, "in_servico3"));
+	in_preco3= GTK_WIDGET(gtk_builder_get_object(builder, "in_preco3"));
+
 	
 	out_datahora= GTK_WIDGET(gtk_builder_get_object(builder, "out_datahora"));
 	btn_feminino= GTK_WIDGET(gtk_builder_get_object(builder, "btn_feminino"));
@@ -136,10 +173,11 @@ int main(int argc, char *argv[]) {
 	btn_funcionarios= GTK_WIDGET(gtk_builder_get_object(builder, "btn_funcionarios"));
 	btn_agenda= GTK_WIDGET(gtk_builder_get_object(builder, "btn_agenda"));
 
-
+	
 	g_signal_connect (sobre_window, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 	g_signal_connect (pesquisar_window, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 	g_signal_connect (adicionar_window2, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	g_signal_connect (adicionar_window3, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tv1));
 	selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(tv3));
@@ -178,6 +216,9 @@ void on_btn_new_clicked(){
 	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_funcionarios))==TRUE){
 		gtk_widget_show(adicionar_window2);
 	}
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_agenda))==TRUE){
+		gtk_widget_show(adicionar_window3);
+	}
 }
 void on_btn_remover_clicked (){
 	GtkTreeModel *model;
@@ -193,6 +234,12 @@ void on_btn_remover_clicked (){
 		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv3));
 		if (gtk_tree_selection_get_selected (selection2, &model, &iter2)) {
 			gtk_tree_store_remove (treeStore2,&iter2);
+		}
+	}
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_agenda))==TRUE){
+		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv2));
+		if (gtk_tree_selection_get_selected (selection3, &model, &iter2)) {
+			gtk_tree_store_remove (treeStore3,&iter2);
 		}
 	}
 
@@ -224,6 +271,15 @@ void clear_in2(){
 	gtk_entry_set_text(in_cpf2,"");
 	gtk_entry_set_text(in_endereco2,"");
 	gtk_entry_set_text(in_servicos,"");
+}
+
+void clear_in3(){
+	gtk_widget_hide (adicionar_window3);
+    gtk_entry_set_text(in_nome3,"");
+    gtk_entry_set_text(in_datahora3,"");
+	gtk_entry_set_text(in_profissional3,"");
+	gtk_entry_set_text(in_servico3,"");
+	gtk_entry_set_text(in_preco3,"");
 }
 
 void on_btn_ok_clicked(){
@@ -261,7 +317,6 @@ void on_btn_ok_clicked(){
 void on_btn_ok2_clicked(){
 	char snome[64],stelefone[64],scpf[64],sendereco[64],sservicos[64],sgenero[10]="F";
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_masculino2))==TRUE){
-		g_print("entrou");
 		sprintf(sgenero, "%s", "M");
     }
 	sprintf(snome, "%s", gtk_entry_get_text(in_nome2));
@@ -302,7 +357,7 @@ void on_btn_clientes_pressed(){
 	gtk_widget_hide(out_datahora);
 }
 
-void get_time(){
+char* get_time(){
 	
 	char dia[10], mes[15], ano[10], hora[10],min[10],data[51], dataf[60]="Hoje é: ",separador = '/', de[4]=" de ";
 	time_t t = time(NULL);
@@ -387,9 +442,11 @@ void get_time(){
 			sprintf(min, "%d", tm.tm_min);
 			break;
 	}
-	snprintf(data, sizeof data, "%s%s%s%s%s", dia, mes, ano, hora,min);
+	snprintf(data, sizeof data, "%s%s%s%s%s%s", dia, mes, ano," ", hora,min);
+	snprintf(data2, sizeof data2, "%s%s%s",hora,":",min);
 	strncat(dataf,data,strlen(data));
-	gtk_entry_set_text(out_datahora,dataf);
+	gtk_entry_set_text(out_datahora,data);
+	return data2;
 }
 
 void on_btn_agenda_pressed(){
@@ -398,7 +455,8 @@ void on_btn_agenda_pressed(){
 	gtk_widget_show(tv2);
 	gtk_widget_show(out_datahora);
 	get_time();
-	
+	gtk_tree_view_column_set_title(cx7,data2);
+	//gtk_tree_view_column_set_title(cx7,get_time());
 }
 
 void on_btn_funcionarios_pressed(){
@@ -417,10 +475,7 @@ void on_btn_cancelar3_clicked(){
 }
 
 void on_about_item_activate(){
-	g_print("clicou");
-
 	gtk_widget_show(sobre_window);
-
 }
 
 void on_ok_btn_clicked(){
@@ -431,6 +486,33 @@ void on_teste_clicked(){
 	gtk_widget_show(sobre_window);
 }
 
+void on_btn_cancelar1_clicked(){
+	clear_in3();
+	gtk_widget_hide(adicionar_window3);
+}
 
+void on_btn_ok1_clicked(){
+	g_print("clicou");
+	char snome[64],sdata[64],sprofissional[64],sservico[64],spreco[64];
+	sprintf(snome, "%s", gtk_entry_get_text(in_nome3));
+    sprintf(sdata, "%s",gtk_entry_get_text(in_datahora3));
+    sprintf(sprofissional, "%s", gtk_entry_get_text(in_profissional3));
+    sprintf(spreco, "%s", gtk_entry_get_text(in_preco3));
+	sprintf(sservico, "%s", gtk_entry_get_text(in_servico3));
 
-
+	GtkTreeIter iter;	
+	gtk_tree_store_append (treeStore3, &iter, NULL);
+	//gtk_tree_view_column_add_attribute(cx7, cr7, "text",  0); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx13, cr13, "text",  1); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx14, cr14, "text",  2);
+	gtk_tree_view_column_add_attribute(cx15, cr15,"text", 3);
+	gtk_tree_view_column_add_attribute(cx16, cr16, "text", 4);
+	gtk_tree_view_column_add_attribute(cx17, cr17, "text", 5);
+	
+	gtk_tree_store_set(treeStore3, &iter, 1, snome, -1); //CPF
+	gtk_tree_store_set(treeStore3, &iter, 2, sprofissional, -1); //Telefone
+	gtk_tree_store_set(treeStore3, &iter, 3, sdata, -1);//Endereço
+	gtk_tree_store_set(treeStore3, &iter, 4, spreco, -1);//genero 
+	gtk_tree_store_set(treeStore3, &iter, 5, sservico, -1);//servico
+	clear_in3();
+}
