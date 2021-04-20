@@ -1,6 +1,6 @@
 # Software-para-Barbearia
 
-<p><b>Gerenciamento de Clientes, Funcionários e Agenda.</b>></p>
+<p><b>Gerenciamento de Clientes, Funcionários e Agenda.</b></p>
 
 <p> -> Escrito em C e GTK3 para Linux/Mac/Windows</p>
 <br></br>
