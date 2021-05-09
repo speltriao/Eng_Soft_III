@@ -91,7 +91,6 @@ char data2[20];
 int main(int argc, char *argv[]) {
 
 	gtk_init(&argc, &argv);
-	//builder = gtk_builder_new_from_file ("/home/speltriao/Documents/Programas/Code_C/C glade/Eng_Soft_III-main/glade/cabeleireiro.glade");
 	builder = gtk_builder_new_from_file ("../glade/cabeleireiro.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
@@ -299,7 +298,7 @@ void on_btn_ok_clicked(){
 	gtk_tree_store_append (treeStore, &iter, NULL);
 	
 	gtk_tree_view_column_add_attribute(cx1, cr1, "text", 0); // attach the renderer to the column
-	gtk_tree_view_column_add_attribute(cx2, cr2, "text", 1); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx2, cr2, "text", 1); 
 	gtk_tree_view_column_add_attribute(cx3, cr3, "text", 2);
 	gtk_tree_view_column_add_attribute(cx4, cr4, "text", 3);
 	gtk_tree_view_column_add_attribute(cx5, cr5, "text", 4);
@@ -328,7 +327,7 @@ void on_btn_ok2_clicked(){
 	GtkTreeIter iter;	
 	gtk_tree_store_append (treeStore2, &iter, NULL);
 	gtk_tree_view_column_add_attribute(cx6, cr6, "text",  0); // attach the renderer to the column
-	gtk_tree_view_column_add_attribute(cx8, cr8, "text",  1); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx8, cr8, "text",  1);
 	gtk_tree_view_column_add_attribute(cx9, cr9, "text",  2);
 	gtk_tree_view_column_add_attribute(cx10, cr10,"text", 3);
 	gtk_tree_view_column_add_attribute(cx11, cr11, "text", 4);
@@ -362,7 +361,6 @@ char* get_time(){
 	char dia[10], mes[15], ano[10], hora[10],min[10],data[51], dataf[60]="Hoje é: ",separador = '/', de[4]=" de ";
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
-	//printf("now: %d-%02d-%02d %02d:%02d:%02d\n",tm.tm_mday, tm.tm_mon + 1,  tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
 	sprintf(dia, "%d", tm.tm_mday);
 	strncat(dia, &de, 4);
 	switch (tm.tm_mon + 1)
@@ -456,7 +454,6 @@ void on_btn_agenda_pressed(){
 	gtk_widget_show(out_datahora);
 	get_time();
 	gtk_tree_view_column_set_title(cx7,data2);
-	//gtk_tree_view_column_set_title(cx7,get_time());
 }
 
 void on_btn_funcionarios_pressed(){
@@ -502,8 +499,7 @@ void on_btn_ok1_clicked(){
 
 	GtkTreeIter iter;	
 	gtk_tree_store_append (treeStore3, &iter, NULL);
-	//gtk_tree_view_column_add_attribute(cx7, cr7, "text",  0); // attach the renderer to the column
-	gtk_tree_view_column_add_attribute(cx13, cr13, "text",  1); // attach the renderer to the column
+	gtk_tree_view_column_add_attribute(cx13, cr13, "text",  1);
 	gtk_tree_view_column_add_attribute(cx14, cr14, "text",  2);
 	gtk_tree_view_column_add_attribute(cx15, cr15,"text", 3);
 	gtk_tree_view_column_add_attribute(cx16, cr16, "text", 4);
