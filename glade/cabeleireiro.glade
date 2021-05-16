@@ -936,7 +936,7 @@ André Teofilo Leme &#13;
 José Eduardo do Nascimento Junior &#13;
 Nicolas Feltrin Mendes &#13;
 </property>
-    <property name="logo">barber-pole.png</property>
+    <property name="logo-icon-name">edit-cut</property>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can-focus">False</property>
