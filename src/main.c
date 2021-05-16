@@ -91,7 +91,7 @@ char data2[20];
 int main(int argc, char *argv[]) {
 
 	gtk_init(&argc, &argv);
-	builder = gtk_builder_new_from_file ("../glade/cabeleireiro.glade");
+	builder = gtk_builder_new_from_resource ("/part1/part1.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
 	g_signal_connect(window, "destroy", G_CALLBACK(on_destroy), NULL);
