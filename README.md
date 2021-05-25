@@ -2,7 +2,8 @@
 
 <p><b>Gerenciamento de Clientes, Funcionários e Agenda.</b></p>
 
-<p> -> Escrito em C e GTK3 para Linux/Mac/Windows</p>
+<p> -> Escrito em C e GTK3 para Linux/Mac/Windows.</p>
+<p> -> Requer o GTK instalado! </p>
 <br></br>
 
 ![](print4.gif)
