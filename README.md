@@ -1,4 +1,4 @@
-# Software-para-Barbearia
+# Software-para-Barbearia (Luz do Mundo)
 
 <p><b>Gerenciamento de Clientes, Funcionários e Agenda.</b></p>
 
