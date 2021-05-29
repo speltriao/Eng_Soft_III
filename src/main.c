@@ -1,11 +1,12 @@
+//Flags para compilar: gcc -o gladewin part1.c -Wall -rdynamic $(pkg-config --cflags --libs gtk+-3.0) -export-dynamic
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#define true 0
+#define false 1
 
-
-//gcc -o gladewin main.c -Wall -rdynamic $(pkg-config --cflags --libs gtk+-3.0) -export-dynamic
 GtkWidget				*window;
 GtkWidget				*teste_window;
 GtkWidget				*adicionar_window;
@@ -13,6 +14,7 @@ GtkWidget				*adicionar_window2;
 GtkWidget				*adicionar_window3;
 GtkWidget				*pesquisar_window;
 GtkWidget				*sobre_window;
+GtkWidget				*warning_window;
 GtkWidget				*fixed1;
 GtkWidget				*view1;
 GtkWidget				*btn_masculino;
@@ -81,21 +83,16 @@ GtkEntry	            *in_datahora3;
 GtkEntry	            *in_profissional3;
 GtkEntry	            *in_servico3;
 GtkEntry	            *in_preco3;
-
 GtkEntry	            *out_datahora;
 GtkTreeIter 			iter2;
 
-
 void on_destroy();
-char data2[20]; 
+char data2[20];
 int main(int argc, char *argv[]) {
-
 	gtk_init(&argc, &argv);
 	builder = gtk_builder_new_from_resource ("/part1/part1.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
-
 	g_signal_connect(window, "destroy", G_CALLBACK(on_destroy), NULL);
-
     gtk_builder_connect_signals(builder, NULL);
 
 	fixed1		= GTK_WIDGET(gtk_builder_get_object(builder, "fixed1"));
@@ -142,6 +139,7 @@ int main(int argc, char *argv[]) {
 	cr16	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr16")); 
 	cr17	= GTK_CELL_RENDERER(gtk_builder_get_object(builder, "cr17")); 
 
+	warning_window = GTK_WIDGET(gtk_builder_get_object(builder, "warning_window"));
 	adicionar_window= GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window"));
 	adicionar_window2= GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window2"));
 	adicionar_window3= GTK_WIDGET(gtk_builder_get_object(builder, "adicionar_window3"));
@@ -185,179 +183,9 @@ int main(int argc, char *argv[]) {
 	gtk_widget_show(window);
 	gtk_main();
 	return EXIT_SUCCESS;
-	}
-
-
-void on_selection_changed(GtkWidget *c) { 
-	gchar *value;
-	
-	GtkTreeModel *model;
-
-	if (gtk_tree_selection_get_selected
-		(GTK_TREE_SELECTION(c), &model, &iter2) == FALSE)
-			return;
-
-	gtk_tree_model_get(model, &iter2, 0, &value,  -1);
-	gtk_tree_model_get(model, &iter2, 1, &value,  -1);
-}
-
-
-void on_destroy() {
-	gtk_main_quit();
-}
-
-
-void on_btn_new_clicked(){
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_clientes))==TRUE){
-		gtk_widget_show(adicionar_window);
-    }
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_funcionarios))==TRUE){
-		gtk_widget_show(adicionar_window2);
-	}
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_agenda))==TRUE){
-		gtk_widget_show(adicionar_window3);
-	}
-}
-void on_btn_remover_clicked (){
-	GtkTreeModel *model;
-	GtkTreeSelection *select;
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_clientes))==TRUE){
-		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv1));
-		if (gtk_tree_selection_get_selected (selection, &model, &iter2)) {
-			gtk_tree_store_remove (treeStore,&iter2);
-		}
-    }
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_funcionarios))==TRUE){
-		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv3));
-		if (gtk_tree_selection_get_selected (selection2, &model, &iter2)) {
-			gtk_tree_store_remove (treeStore2,&iter2);
-		}
-	}
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_agenda))==TRUE){
-		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv2));
-		if (gtk_tree_selection_get_selected (selection3, &model, &iter2)) {
-			gtk_tree_store_remove (treeStore3,&iter2);
-		}
-	}
-
-}
-void on_main_window_destroy(){
-    gtk_main_quit();
-}
-
-void on_adicionar_window_delete(){
-    gtk_widget_hide_on_delete(adicionar_window);
-}
-void on_adicionar_window2_delete(){
-    gtk_widget_hide_on_delete(adicionar_window2);
-}
-
-
-void clear_in(){
-	gtk_widget_hide (adicionar_window);
-    gtk_entry_set_text(in_nome,"");
-    gtk_entry_set_text(in_telefone,"");
-	gtk_entry_set_text(in_cpf,"");
-	gtk_entry_set_text(in_endereco,"");
-}
-
-void clear_in2(){
-	gtk_widget_hide (adicionar_window2);
-    gtk_entry_set_text(in_nome2,"");
-    gtk_entry_set_text(in_telefone2,"");
-	gtk_entry_set_text(in_cpf2,"");
-	gtk_entry_set_text(in_endereco2,"");
-	gtk_entry_set_text(in_servicos,"");
-}
-
-void clear_in3(){
-	gtk_widget_hide (adicionar_window3);
-    gtk_entry_set_text(in_nome3,"");
-    gtk_entry_set_text(in_datahora3,"");
-	gtk_entry_set_text(in_profissional3,"");
-	gtk_entry_set_text(in_servico3,"");
-	gtk_entry_set_text(in_preco3,"");
-}
-
-void on_btn_ok_clicked(){
-	
-	char snome[64],stelefone[64],scpf[64],sendereco[64],sgenero[10]="F";
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_masculino))==TRUE){
-		sprintf(sgenero, "%s", "M");
-    }
-
-	sprintf(snome, "%s", gtk_entry_get_text(in_nome));
-    sprintf(stelefone, gtk_entry_get_text(in_telefone));
-    sprintf(scpf, "%s", gtk_entry_get_text(in_cpf));
-    sprintf(sendereco, "%s", gtk_entry_get_text(in_endereco));
-	
-	GtkTreeIter iter;	
-	gtk_tree_store_append (treeStore, &iter, NULL);
-	
-	gtk_tree_view_column_add_attribute(cx1, cr1, "text", 0); // attach the renderer to the column
-	gtk_tree_view_column_add_attribute(cx2, cr2, "text", 1); 
-	gtk_tree_view_column_add_attribute(cx3, cr3, "text", 2);
-	gtk_tree_view_column_add_attribute(cx4, cr4, "text", 3);
-	gtk_tree_view_column_add_attribute(cx5, cr5, "text", 4);
-
-	gtk_tree_store_set(treeStore, &iter, 0, snome, -1); //Nome
-	gtk_tree_store_set(treeStore, &iter, 1, scpf, -1); //CPF
-	gtk_tree_store_set(treeStore, &iter, 2, sendereco, -1);//Endereço
-	gtk_tree_store_set(treeStore, &iter, 3, stelefone, -1); //Telefone
-	gtk_tree_store_set(treeStore, &iter, 4, sgenero, -1);//sexo
-	clear_in();
-	
-}
-
-
-void on_btn_ok2_clicked(){
-	char snome[64],stelefone[64],scpf[64],sendereco[64],sservicos[64],sgenero[10]="F";
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_masculino2))==TRUE){
-		sprintf(sgenero, "%s", "M");
-    }
-	sprintf(snome, "%s", gtk_entry_get_text(in_nome2));
-    sprintf(stelefone, gtk_entry_get_text(in_telefone2));
-    sprintf(scpf, "%s", gtk_entry_get_text(in_cpf2));
-    sprintf(sendereco, "%s", gtk_entry_get_text(in_endereco2));
-	sprintf(sservicos, "%s", gtk_entry_get_text(in_servicos));
-
-	GtkTreeIter iter;	
-	gtk_tree_store_append (treeStore2, &iter, NULL);
-	gtk_tree_view_column_add_attribute(cx6, cr6, "text",  0); // attach the renderer to the column
-	gtk_tree_view_column_add_attribute(cx8, cr8, "text",  1);
-	gtk_tree_view_column_add_attribute(cx9, cr9, "text",  2);
-	gtk_tree_view_column_add_attribute(cx10, cr10,"text", 3);
-	gtk_tree_view_column_add_attribute(cx11, cr11, "text", 4);
-	gtk_tree_view_column_add_attribute(cx12, cr12, "text", 5);
-	gtk_tree_store_set(treeStore2, &iter, 0, snome, -1); //Nome
-	gtk_tree_store_set(treeStore2, &iter, 1, scpf, -1); //CPF
-	gtk_tree_store_set(treeStore2, &iter, 2, sendereco, -1);//Endereço
-	gtk_tree_store_set(treeStore2, &iter, 3, stelefone, -1); //Telefone
-	gtk_tree_store_set(treeStore2, &iter, 4, sservicos, -1);//genero 
-	gtk_tree_store_set(treeStore2, &iter, 5, sgenero, -1);//servico
-	clear_in2();
-	
-}
-
-void on_btn_cancelar_clicked(){
-    clear_in();
-}
-void on_btn_cancelar2_clicked(){
-	clear_in2();
-}
-
-void on_btn_clientes_pressed(){
-	gtk_widget_show(tv1);
-	gtk_widget_hide(tv2);
-	gtk_widget_hide(tv3);
-	gtk_widget_hide(out_datahora);
 }
 
 char* get_time(){
-	
 	char dia[10], mes[15], ano[10], hora[10],min[10],data[51], dataf[60]="Hoje é: ",separador = '/', de[4]=" de ";
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
@@ -447,6 +275,209 @@ char* get_time(){
 	return data2;
 }
 
+ void on_selection_changed(GtkWidget *c) { 
+	gchar *value;
+	GtkTreeModel *model;
+	if (gtk_tree_selection_get_selected
+		(GTK_TREE_SELECTION(c), &model, &iter2) == FALSE)
+			return;
+	gtk_tree_model_get(model, &iter2, 0, &value,  -1);
+	gtk_tree_model_get(model, &iter2, 1, &value,  -1);
+}
+
+void on_destroy() {
+	gtk_main_quit();
+}
+
+void on_btn_new_clicked(){
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_clientes))==TRUE){
+		gtk_widget_show(adicionar_window);
+    }
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_funcionarios))==TRUE){
+		gtk_widget_show(adicionar_window2);
+	}
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_agenda))==TRUE){
+		gtk_widget_show(adicionar_window3);
+	}
+}
+
+void on_btn_remover_clicked (){
+	GtkTreeModel *model;
+	GtkTreeSelection *select;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_clientes))==TRUE){
+		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv1));
+		g_print(select);
+		if (gtk_tree_selection_get_selected (selection, &model, &iter2)) {
+			gtk_tree_store_remove (treeStore,&iter2);
+		}
+    }
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_funcionarios))==TRUE){
+		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv3));
+		if (gtk_tree_selection_get_selected (selection2, &model, &iter2)) {
+			gtk_tree_store_remove (treeStore2,&iter2);
+		}
+	}
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_agenda))==TRUE){
+		select = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv2));
+		if (gtk_tree_selection_get_selected (selection3, &model, &iter2)) {
+			gtk_tree_store_remove (treeStore3,&iter2);
+		}
+	}
+}
+
+void on_main_window_destroy(){
+    gtk_main_quit();
+}
+
+ void on_adicionar_window_delete(){
+    gtk_widget_hide_on_delete(adicionar_window);
+}
+ void on_adicionar_window2_delete(){
+    gtk_widget_hide_on_delete(adicionar_window2);
+}
+
+void clear_in(){
+	gtk_widget_hide (adicionar_window);
+    gtk_entry_set_text(in_nome,"");
+    gtk_entry_set_text(in_telefone,"");
+	gtk_entry_set_text(in_cpf,"");
+	gtk_entry_set_text(in_endereco,"");
+}
+
+void clear_in2(){
+	gtk_widget_hide (adicionar_window2);
+    gtk_entry_set_text(in_nome2,"");
+    gtk_entry_set_text(in_telefone2,"");
+	gtk_entry_set_text(in_cpf2,"");
+	gtk_entry_set_text(in_endereco2,"");
+	gtk_entry_set_text(in_servicos,"");
+}
+
+void clear_in3(){
+	gtk_widget_hide (adicionar_window3);
+    gtk_entry_set_text(in_nome3,"");
+    gtk_entry_set_text(in_datahora3,"");
+	gtk_entry_set_text(in_profissional3,"");
+	gtk_entry_set_text(in_servico3,"");
+	gtk_entry_set_text(in_preco3,"");
+}
+
+void on_btn_ok_clicked(){
+	char snome[64],stelefone[64],scpf[64],sendereco[64],sgenero[10]="F";
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_masculino))==TRUE){
+		sprintf(sgenero, "%s", "M");
+    }
+
+	sprintf(snome, "%s", gtk_entry_get_text(in_nome));
+    sprintf(stelefone, gtk_entry_get_text(in_telefone));
+    sprintf(scpf, "%s", gtk_entry_get_text(in_cpf));
+    sprintf(sendereco, "%s", gtk_entry_get_text(in_endereco));
+	
+
+	if((strlen(snome)==0)||(strlen(stelefone)==0)||(strlen(scpf)==0)||(strlen(sendereco)==0)){
+		gtk_widget_hide(adicionar_window);
+		gtk_widget_show(warning_window);
+	}
+	else{
+		GtkTreeIter iter;	
+		gtk_tree_store_append (treeStore, &iter, NULL);
+		
+		gtk_tree_view_column_add_attribute(cx1, cr1, "text", 0); // attach the renderer to the column
+		gtk_tree_view_column_add_attribute(cx2, cr2, "text", 1); 
+		gtk_tree_view_column_add_attribute(cx3, cr3, "text", 2);
+		gtk_tree_view_column_add_attribute(cx4, cr4, "text", 3);
+		gtk_tree_view_column_add_attribute(cx5, cr5, "text", 4);
+
+		gtk_tree_store_set(treeStore, &iter, 0, snome, -1); //Nome
+		gtk_tree_store_set(treeStore, &iter, 1, scpf, -1); //CPF
+		gtk_tree_store_set(treeStore, &iter, 2, sendereco, -1);//Endereço
+		gtk_tree_store_set(treeStore, &iter, 3, stelefone, -1); //Telefone
+		gtk_tree_store_set(treeStore, &iter, 4, sgenero, -1);//sexo
+		clear_in();
+	}
+}
+
+void on_btn_ok1_clicked(){
+	char snome[64],sdata[64],sprofissional[64],sservico[64],spreco[64];
+	sprintf(snome, "%s", gtk_entry_get_text(in_nome3));
+    sprintf(sdata, "%s",gtk_entry_get_text(in_datahora3));
+    sprintf(sprofissional, "%s", gtk_entry_get_text(in_profissional3));
+    sprintf(spreco, "%s", gtk_entry_get_text(in_preco3));
+	sprintf(sservico, "%s", gtk_entry_get_text(in_servico3));
+
+	if((strlen(snome)==0)||(strlen(sdata)==0)||(strlen(sprofissional)==0)||(strlen(sservico)==0)||(strlen(spreco)==0)){
+		gtk_widget_hide(adicionar_window3);
+		gtk_widget_show(warning_window);
+	}
+	else{
+		GtkTreeIter iter;	
+		gtk_tree_store_append (treeStore3, &iter, NULL);
+		gtk_tree_view_column_add_attribute(cx13, cr13, "text",  1);
+		gtk_tree_view_column_add_attribute(cx14, cr14, "text",  2);
+		gtk_tree_view_column_add_attribute(cx15, cr15,"text", 3);
+		gtk_tree_view_column_add_attribute(cx16, cr16, "text", 4);
+		gtk_tree_view_column_add_attribute(cx17, cr17, "text", 5);
+		
+		gtk_tree_store_set(treeStore3, &iter, 1, snome, -1); //CPF
+		gtk_tree_store_set(treeStore3, &iter, 2, sprofissional, -1); //Telefone
+		gtk_tree_store_set(treeStore3, &iter, 3, sdata, -1);//Endereço
+		gtk_tree_store_set(treeStore3, &iter, 4, spreco, -1);//genero 
+		gtk_tree_store_set(treeStore3, &iter, 5, sservico, -1);//servico
+		clear_in3();
+	}
+}
+
+void on_btn_ok2_clicked(){
+	char snome[64],stelefone[64],scpf[64],sendereco[64],sservicos[64],sgenero[10]="F";
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(btn_masculino2))==TRUE){
+		sprintf(sgenero, "%s", "M");
+    }
+	sprintf(snome, "%s", gtk_entry_get_text(in_nome2));
+    sprintf(stelefone, gtk_entry_get_text(in_telefone2));
+    sprintf(scpf, "%s", gtk_entry_get_text(in_cpf2));
+    sprintf(sendereco, "%s", gtk_entry_get_text(in_endereco2));
+	sprintf(sservicos, "%s", gtk_entry_get_text(in_servicos));
+
+	if((strlen(snome)==0)||(strlen(stelefone)==0)||(strlen(scpf)==0)||(strlen(sendereco)==0)){
+		gtk_widget_hide(adicionar_window2);
+		gtk_widget_show(warning_window);
+	}
+	else{
+		GtkTreeIter iter;	
+		gtk_tree_store_append (treeStore2, &iter, NULL);
+		gtk_tree_view_column_add_attribute(cx6, cr6, "text",  0); // attach the renderer to the column
+		gtk_tree_view_column_add_attribute(cx8, cr8, "text",  1);
+		gtk_tree_view_column_add_attribute(cx9, cr9, "text",  2);
+		gtk_tree_view_column_add_attribute(cx10, cr10,"text", 3);
+		gtk_tree_view_column_add_attribute(cx11, cr11, "text", 4);
+		gtk_tree_view_column_add_attribute(cx12, cr12, "text", 5);
+		gtk_tree_store_set(treeStore2, &iter, 0, snome, -1); //Nome
+		gtk_tree_store_set(treeStore2, &iter, 1, scpf, -1); //CPF
+		gtk_tree_store_set(treeStore2, &iter, 2, sendereco, -1);//Endereço
+		gtk_tree_store_set(treeStore2, &iter, 3, stelefone, -1); //Telefone
+		gtk_tree_store_set(treeStore2, &iter, 4, sservicos, -1);//genero 
+		gtk_tree_store_set(treeStore2, &iter, 5, sgenero, -1);//servico
+		clear_in2();	
+	}
+}
+
+void on_btn_cancelar_clicked(){
+    clear_in();
+}
+void on_btn_cancelar2_clicked(){
+	clear_in2();
+}
+
+void on_btn_clientes_pressed(){
+	gtk_widget_show(tv1);
+	gtk_widget_hide(tv2);
+	gtk_widget_hide(tv3);
+	gtk_widget_hide(out_datahora);
+}
+
 void on_btn_agenda_pressed(){
 	gtk_widget_hide(tv1);
 	gtk_widget_hide(tv3);
@@ -488,27 +519,6 @@ void on_btn_cancelar1_clicked(){
 	gtk_widget_hide(adicionar_window3);
 }
 
-void on_btn_ok1_clicked(){
-	g_print("clicou");
-	char snome[64],sdata[64],sprofissional[64],sservico[64],spreco[64];
-	sprintf(snome, "%s", gtk_entry_get_text(in_nome3));
-    sprintf(sdata, "%s",gtk_entry_get_text(in_datahora3));
-    sprintf(sprofissional, "%s", gtk_entry_get_text(in_profissional3));
-    sprintf(spreco, "%s", gtk_entry_get_text(in_preco3));
-	sprintf(sservico, "%s", gtk_entry_get_text(in_servico3));
-
-	GtkTreeIter iter;	
-	gtk_tree_store_append (treeStore3, &iter, NULL);
-	gtk_tree_view_column_add_attribute(cx13, cr13, "text",  1);
-	gtk_tree_view_column_add_attribute(cx14, cr14, "text",  2);
-	gtk_tree_view_column_add_attribute(cx15, cr15,"text", 3);
-	gtk_tree_view_column_add_attribute(cx16, cr16, "text", 4);
-	gtk_tree_view_column_add_attribute(cx17, cr17, "text", 5);
-	
-	gtk_tree_store_set(treeStore3, &iter, 1, snome, -1); //CPF
-	gtk_tree_store_set(treeStore3, &iter, 2, sprofissional, -1); //Telefone
-	gtk_tree_store_set(treeStore3, &iter, 3, sdata, -1);//Endereço
-	gtk_tree_store_set(treeStore3, &iter, 4, spreco, -1);//genero 
-	gtk_tree_store_set(treeStore3, &iter, 5, sservico, -1);//servico
-	clear_in3();
+void on_ok_btn_4_clicked(){
+	gtk_widget_hide(warning_window);
 }
